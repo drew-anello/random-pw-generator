@@ -20,6 +20,10 @@ func main()  {
 	for i := 0; i < 10; i++ {
 		numbers[i] = rune('0' + i)
 	}
+
+	specialChars := "!@#$%^&*()-_=+[]{}|;:'\",.<>?/"
+
+	fmt.Println( strings.Split(string(specialChars), ""))
 	fmt.Println( strings.Split(string(letters), ""))
 	fmt.Println( strings.Split(string(numbers), ""))
 }
