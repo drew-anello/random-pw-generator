@@ -5,10 +5,21 @@ import (
 	"strings"
 )
 func main()  {
-	letters := make([]rune, 26)
+	letters := make([]rune, 52)
 
 	for i := 0; i < 26; i++ {
 		letters[i] = rune('a' + i)
 	}
-	fmt.Println("letters", strings.Split(string(letters), ""))
+
+	for i := 0; i < 26; i++ {
+		letters[26 + i] = rune('A' + i)
+	}
+
+	numbers := make([]rune, 10)
+
+	for i := 0; i < 10; i++ {
+		numbers[i] = rune('0' + i)
+	}
+	fmt.Println( strings.Split(string(letters), ""))
+	fmt.Println( strings.Split(string(numbers), ""))
 }
