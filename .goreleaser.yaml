@@ -1,51 +1,29 @@
-# This is an example .goreleaser.yml file with some sensible defaults.
-# Make sure to check the documentation at https://goreleaser.com
-before:
-  hooks:
-    # You may remove this if you don't use go modules.
-    - go mod tidy
-    # You may remove this if you don't need go generate.
-    - go generate ./...
-
 builds:
-  - env:
+  - binary: pwg
     goos:
       - linux
-      - windows
       - darwin
     goarch:
-      - "amd64"
-      - "arm64"
+      - amd64
+      - arm64
+    env:
+      - CGO_ENABLED=0
+    flags:
+      - -mod=vendor
+release:
+  prerelease: auto
 
-archives:
-  - format: tar.gz
-    # This name template makes the OS and Arch compatible with the results of uname.
-    name_template: >-
-      {{ .ProjectName }}_
-      {{- title .Os }}_
-      {{- if eq .Arch "amd64" }}x86_64
-      {{- else if eq .Arch "386" }}i386
-      {{- else }}{{ .Arch }}{{ end }}
-      {{- if .Arm }}v{{ .Arm }}{{ end }}
-    # Use zip for Windows archives.
-    format_overrides:
-      - goos: windows
-        format: zip
+universal_binaries:
+  - replace: true
+brews:
+  - name: pwg
+    homepage: https://github.com/drew-anello/random-pw-generator
+    tap:
+      owner: drew-anello
+      name: homebrew-mybrewformulas
+    commit_author:
+      name: Drew Anello
+      email: drew.anello@gmail.com
 
 checksum:
-  name_template: "checksums.txt"
-
-snapshot:
-  name_template: "{{ incpatch .Version }}-next"
-
-changelog:
-  sort: asc
-  filters:
-    exclude:
-      - "^docs:"
-      - "^test:"
-
-project_name: { { .ProjectName } }
-project_description: { { .ProjectDescription } }
-project_version: { { .ProjectVersion } }
-project_author: { { .ProjectAuthor } }
+  name_template: "checksum.txt"
